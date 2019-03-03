@@ -64,7 +64,7 @@ class AddressBalInfo:
 
 		# Fill in the address information dictionary
 		address_info["utxos"] = utxos
-		address_info["balance"] = balance
+		address_info["balance"] = float( "{:.8f}".format(balance))
 		address_info["all_spendable"] = all_spendable
 		address_info["total_txs"] = len(transactions)
 
