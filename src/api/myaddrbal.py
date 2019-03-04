@@ -24,7 +24,11 @@ class address_info:
 
 		web.header("Content-Type", "text/json")
 
-		addr = AddressBalInfo("1BHpHmY4U9dzpn1NGEETYm8trZ4faCqMAW")
+		if not address:
+			response = "Please specify an address"
+			return response
+
+		addr = AddressBalInfo(address)
 		response = addr.get_info()
 
 		return response
