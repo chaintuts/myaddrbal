@@ -27,10 +27,12 @@ Clean the build directory
 * Show address balance information with associated UTXOs. 
 This mid-level abstraction can help a user better understand or work with an address balance by pulling 
 relevant data from raw transactions and UTXOs associated with an address
+* Show the balance information in a formatted table with the React web client
 * Pull raw data from commonly available APIs. Currently supported: rest.bitcoin.com (BCH)
 
 ### Requirements
-* Requires Python 3
+* Requires Python 3 for API
+* Requires NPM for React web client
 
 ### Platforms
 * Firefox
@@ -39,5 +41,9 @@ relevant data from raw transactions and UTXOs associated with an address
 ## Usage
 ____________
 
-### Command line usage
+### API usage
 * Visit the root url with and address (/<address>) for information
+
+### Web client usage
+* Enter the address in the text input and click "Retrieve balance info"
+* Information will be fetched and shown in a formatted table
