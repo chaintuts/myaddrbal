@@ -19,11 +19,11 @@ import json
 #
 # [
 #	{
-#		"amount" : "Amount in Bitcoin Cash",
-#		"tx_id" : "ID of the source transaction"
+#		"amount" : "Amount in whole currency units (BCH, BTC, etc.)",
+#		"tx_id" : "Hash ID of the source transaction"
 #		"confirmations" : "Number of confirmations for this tx",
-#		"sending_scripts" : [ "scriptSigs", "for" "inputs" ],
-#		"scripts" : "scriptPubKey for output"
+#		"sending_scripts" : [ "scriptSigs", "for", "inputs" ],
+#		"script" : "scriptPubKey for output"
 #
 #	}
 # ]
