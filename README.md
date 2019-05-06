@@ -42,7 +42,9 @@ relevant data from raw transactions and UTXOs associated with an address
 ____________
 
 ### API usage
-* Visit the root url with and address (/<address>) for information
+* Visit the root url with and address (/<address>/<currency>) for information
+* Address should be a valid address for the specified currency
+* Supported currency tickers: "bch", "btc"
 
 ### Web client usage
 * Enter the address in the text input and click "Retrieve balance info"
