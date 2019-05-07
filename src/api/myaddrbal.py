@@ -13,14 +13,14 @@ web.config.debug = True
 
 # Define URL handling
 urls = (
-		"/(.*)", "address_info"
+		"/(.*)/(.*)", "address_info"
 	)
 
 
 # This function is the main entry point for the program
 class address_info:
 
-	def GET(self, address):
+	def GET(self, address, currency):
 
 		web.header("Content-Type", "text/json")
 
@@ -28,7 +28,11 @@ class address_info:
 			response = "Please specify an address"
 			return response
 
-		addr = AddressBalInfo(address)
+		if not currency:
+			addr = AddressBalInfo(address)
+		else:
+			addr = AddressBalInfo(address, currency)
+
 		response = addr.get_info()
 
 		return response

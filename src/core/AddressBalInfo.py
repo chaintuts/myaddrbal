@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from ApiWrappers import BchApiWrapper
+from ApiWrappers import BchApiWrapper, BtcApiWrapper
 import bitutil
 import json
 
@@ -14,12 +14,16 @@ import json
 #
 class AddressBalInfo:
 
-	def __init__(self, address):
+	def __init__(self, address, currency="bch"):
 
 		# Fetch the desired information from the API, parse, and precompute relevant stats
 		self.address = address
 
-		api = BchApiWrapper()
+		if currency == "bch":
+			api = BchApiWrapper()
+		elif currency == "btc":
+			api = BtcApiWrapper()
+                
 		self.raw_info = api.get_standard_info(self.address)
 
 		# Parse information we want to output from the raw info
@@ -43,12 +47,19 @@ class AddressBalInfo:
 			utxo["spendable"] = True if int(raw["confirmations"]) > 6 else False
 
 			sending_addrs = []
-			for ssig in raw["sending_scripts"]:
-				address = bitutil.address_from_scriptsig(ssig)
-				sending_addrs.append(address) 
-			utxo["sending_addrs"] = sending_addrs
 
-			utxo["script_type"] = bitutil.get_script_pubkey_type(raw["script"]) 
+			if not "sending_addrs" in raw:
+				for ssig in raw["sending_scripts"]:
+					address = bitutil.address_from_scriptsig(ssig)
+					sending_addrs.append(address) 
+				utxo["sending_addrs"] = sending_addrs
+			else:
+				utxo["sending_addrs"] = raw["sending_addrs"]
+
+			if not "script_type" in raw: 
+				utxo["script_type"] = bitutil.get_script_pubkey_type(raw["script"]) 
+			else:
+				utxo["script_type"] = raw["script_type"]
 
 			utxos.append(utxo)
 

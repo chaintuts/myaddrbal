@@ -39,7 +39,7 @@ class App extends Component {
 	 timeout : 3000
      });
 
-     const response = await apiHandle.get(this.state.address);
+     const response = await apiHandle.get(this.state.address + "/bch");
      console.log(response.data);
      const data = response.data;
      this.setState({ data : data });
