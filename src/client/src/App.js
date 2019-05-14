@@ -11,20 +11,15 @@ class App extends Component {
     // Set componenet state
     this.state = {
       address : "",
+      currency: "bch",
       data : ""
     }
 
     // Bind custom internal methods
+    this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
+    this.renderCurrencySelect = this.renderCurrencySelect.bind(this);
     this.updateAddress = this.updateAddress.bind(this);
     this.loadData = this.loadData.bind(this);
-  }
-
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
   }
 
   // Update the desired address in the internal state
@@ -39,10 +34,26 @@ class App extends Component {
 	 timeout : 3000
      });
 
-     const response = await apiHandle.get(this.state.address + "/bch");
-     console.log(response.data);
+     const urlTail = this.state.address + "/" + this.state.currency;
+     const response = await apiHandle.get(urlTail);
+
      const data = response.data;
      this.setState({ data : data });
+  }
+
+  handleCurrencyChange(event)
+  {
+      this.setState({ currency : event.target.value });
+  }
+
+  renderCurrencySelect()
+  {
+      return (
+          <select value={ this.state.currency } onChange={ this.handleCurrencyChange }>
+              <option value="bch">Bitcoin Cash (BCH)</option>
+	      <option value="btc">Bitcoin (BTC) </option>
+	  </select>
+      );
   }
 
   render() {
@@ -108,6 +119,8 @@ class App extends Component {
                     Enter Address: <input id="address" onChange={this.updateAddress}></input>
 	            <button onClick={ this.loadData }>Retrieve Balance Info</button>
 	        </p>
+
+                { this.renderCurrencySelect() }
 
                 { table }
 
