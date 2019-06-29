@@ -2,19 +2,33 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from "axios";
 import { AddressTable } from './AddressTable';
+import { IAddressData } from './AddressInfoTypes';
 
-class App extends Component {
+interface IAppState
+{
+	address: string;
+	currency: string;
+	data: IAddressData;
+}
+
+class App extends Component<{}, IAppState>
+{
 
 	// This constructor initializes component state
-	constructor(props) 
+	constructor(props : any) 
 	{
 		super(props);
 
-		// Set componenet state
+		// Set component state
 		this.state = {
 			address : "",
 			currency: "bch",
-			data : ""
+			data : {
+				 balance: 0.00,
+				 all_spendable: false,				 
+				 total_txs: 0,
+				 utxos : []
+			}
 		}
 	
 		// Bind custom internal methods
@@ -25,9 +39,9 @@ class App extends Component {
 	}
 
 	// Update the desired address in the internal state
-	updateAddress(event) 
+	updateAddress(event: React.FormEvent<HTMLInputElement>) 
 	{
-		this.setState({ address: event.target.value });
+		this.setState({ address: (event.target as HTMLInputElement).value });
 	}
 
 	// Load the address balance information from the API
@@ -38,16 +52,16 @@ class App extends Component {
 			timeout : 3000
 		});
 
-		const urlTail = this.state.address + "/" + this.state.currency;
+		const urlTail : string= this.state.address + "/" + this.state.currency;
 		const response = await apiHandle.get(urlTail);
 
-		const data = response.data;
+		const data : IAddressData = response.data;
 		this.setState({ data : data });
 	}
 
-	handleCurrencyChange(event)
+	handleCurrencyChange(event: React.FormEvent<HTMLSelectElement>)
 	{
-		this.setState({ currency : event.target.value });
+		this.setState({ currency : (event.target as HTMLSelectElement).value });
 	}
 
 	renderCurrencySelect()
